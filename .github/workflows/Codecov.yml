@@ -19,19 +19,15 @@ jobs:
       - name: Setup VSTest and add to PATH
         uses: darenm/Setup-VSTest@v1
         id: setup_vstest
-      - name: Setup OpenCppCoverage with XmlExporter and add to PATh
+      - name: Setup OpenCppCoverage and add to PATh
         id: setup_opencppcoverage
         run: |
           choco install OpenCppCoverage -y
-          choco install OpenCppCoverage -y
-          Invoke-WebRequest -OutFile XmlExporter-x64.zip https://github.com/berryzplus/XmlExporter/releases/download/v1.0.0/XmlExporter-x64.zip
-          7z e XmlExporter-x64.zip
-          Move-Item -Path XmlExporter.dll -Destination "C:\Program Files\OpenCppCoverage\Plugins\Exporter\xml.dll"
           echo "C:\Program Files\OpenCppCoverage" >> $env:GITHUB_PATH
       - name: Generate Report
         id: generate_test_report
         shell: cmd
-        run: OpenCppCoverage.exe --sources HelloCov --export_type xml:HelloCov.xml -- "vstest.console.exe" x64\Debug\HelloTest.dll
+        run: OpenCppCoverage.exe --sources HelloCov --export_type cobertura:HelloCov.xml -- "vstest.console.exe" x64\Debug\HelloTest.dll
       - name: Upload Report to Codecov
         uses: codecov/codecov-action@v1
         with:
