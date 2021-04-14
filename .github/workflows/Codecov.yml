@@ -29,7 +29,7 @@ jobs:
         shell: cmd
         run: OpenCppCoverage.exe --sources HelloCov --export_type cobertura:HelloCov.xml -- "vstest.console.exe" x64\Debug\HelloTest.dll
       - name: Upload Report to Codecov
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v1.3.2
         with:
           files: ./HelloCov.xml
           fail_ci_if_error: true
